@@ -14,3 +14,7 @@ options :
 	- --drop : supprimer les containers creer par le deploy.sh
 
 	- --infos : caracteristiques des containers (ip, nom, user ...)	
+
+	- --start :redémarrage des containers
+
+	- --ansible: déploiement arborescence ansible
