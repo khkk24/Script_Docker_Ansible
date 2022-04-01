@@ -1,4 +1,6 @@
-#
+#!/bin/bash
+
+
 #  Deploiement a la volée de container docker
 #
 #
@@ -53,7 +55,7 @@ createNodes() {
 
 dropNodes(){
 	echo "Supression des conteneurs..."
-	docker rm -f $(docker ps
+	docker rm -f $(docker ps -a | grep $USER-debian | awk '{print $1}')
 	echo "Fin de la suppression"
 }
 
@@ -117,5 +119,6 @@ else
 	help
 
 fi
+
 
 
