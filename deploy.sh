@@ -40,7 +40,7 @@ createNodes() {
 
 	#lancement des containers
 	for i in $(seq $min $max);do
-		docker run -tid --privileged --publish-all=true -v /srv/data:/srv/html -v /sys/fs/cgroup:ro --name $USER-debian-$i -h $USER-debian-$i priximno/buster-systemd-ssh
+		docker run -tid --privileged --publish-all=true -v /srv/data:/srv/html -v /sys/fs/cgroup:ro --name $USER-debian-$i -h $USER-udebian-$i priximmo/buster-systemd-ssh
 		docker exec -ti $USER-debian-$i /bin/sh -c "useradd -m -p sa3tHJ3/KuYvI $USER"
 		docker exec -ti $USER-debian-$i /bin/sh -c "mkdir ${HOME}/.ssh && chmod 700 ${HOME}"
 		docker cp $HOME/.ssh/id_rsa.pub $USER-debian-$i:HOME/.ssh/authorized_keys
@@ -76,7 +76,7 @@ createAnsible(){
 	echo " vars:" >>$ANSIBLE_DIR/00_inventory.yml
 	echo "	ansible_python_interpreter: /usr/bin/python3" >> $ANSIBLE_DIR/00_inventory.yml
 	echo "	hosts:" >> $ANSIBLE_DIR/00_inventory.yml
-	for conteneur in $(docker ps -a | grep $USER-debian | awk '{print $1}');do
+	for conteneur in $(docker ps -a | grep /home/khkk2022-debian | awk '{print $1}');do
 		docker inspect -f '	=>{{.Name}} - {{.NetworkSetting.IPAddress }}:' $conteneur >> $ANSIBKLE_DIR/00_inventory.yml
 	done
 	mkdir -p $ANSIBLE_DIR/host_vars
