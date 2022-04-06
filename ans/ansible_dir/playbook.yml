@@ -1,0 +1,15 @@
+---
+
+- name: 'mon playbook'
+  hosts: all
+  become: yes
+  tasks:
+  - name: 'creer cisco'
+    user:
+      name: cisco 
+      state: present
+      uid: 1200
+      groups: sudo
+      generate_ssh_key: yes
+      password: "{{ 'password' | password_hash('sha512') }}"
+  
