@@ -1,0 +1,36 @@
+---
+
+- name: mon premier playbook
+  hosts: all
+  tasks: 
+  
+  - name: "generation de la clef"
+    openssh_keypair:
+      path: /tmp/cisco
+      size: 4096
+      state: present
+      force: no
+    delegate_to: localhost
+    run_once: yes
+     
+  - name: "creation du user devops" 
+    user:
+      name: "devops"
+      shell: /bin/bash
+      groups: sudo
+      append: yes
+      password: "{{ 'password' | password_hash('sha512') }}" 
+    become: yes 
+
+  - name: "Add devops user to the sudoers"
+    copy: 
+      dest: "/etc/sudoers.d/devops"
+      content: "devops ALL=(ALL) NOPASSWD: ALL"
+    become: yes
+
+  - name: "deploy SSH key"
+    authorized_key: 
+      user: devops
+      key: "{{ lookup('file', '/tmp/cisco.pub') }}"
+      state: present
+    become: yes  
