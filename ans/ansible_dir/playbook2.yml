@@ -1,0 +1,18 @@
+---
+
+- name: "nom playbook"
+  hosts: all
+  become: yes
+  tasks:
+  - name: "creation du fichier cisco"
+    file:
+      path: /tmp/cisco.txt
+      state: touch
+      owner: root
+  - name: "test de stat"
+    stat:
+      path: /tmp/cisco.txt
+    register: __stat_cisco
+  - name: "affichage "
+    debug:
+      msg: "Mon fichier existe {{  __stat_cisco.stat.exists }} "  
